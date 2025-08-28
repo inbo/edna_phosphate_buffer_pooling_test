@@ -1,0 +1,67 @@
+
+---
+title: "Pooling vs Single DNA Extraction — Depth-adjusted Richness Comparison"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: false
+    df_print: paged
+params:
+  equivalence_margin_type: "relative"   # "relative" or "absolute"
+  equivalence_margin_value: 0.10        # 10% relative OR an absolute count if type == "absolute"
+  random_seed: 123
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(here)
+opts_chunk$set(echo = TRUE, error = TRUE, out.width = "100%")
+opts_knit$set(root.dir = here::here())
+
+# ---- setup ----
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.width = 7, fig.height = 4.5)
+set.seed(params$random_seed)
+
+libs <- c(
+  "dplyr","tidyr","readr","stringr","ggplot2","glmmTMB",
+  "emmeans","effectsize","TOSTER","splines","broom","broom.mixed","janitor"
+)
+to_install <- setdiff(libs, rownames(installed.packages()))
+if (length(to_install)) install.packages(to_install, repos = "https://cloud.r-project.org")
+invisible(lapply(libs, library, character.only = TRUE))
+
+dir.create("results", showWarnings = FALSE)
+
+
+pooling_test_folder <- "G:/Mijn Drive/pooling_test" # nolint
+
+output_dir <- file.path(getwd(), "output")
+if (!dir.exists(output_dir)) dir.create(output_dir)
+
+```
+
+```{r cache=TRUE, include=FALSE}
+1+1
+# een trukje om te zorgen dat de folder met figuren, die aangemaakt wordt als je
+# knit, bewaard blijft
+```
+
+```{r}
+diversiteit <- readr::read_csv(
+  file.path(
+    pooling_test_folder,
+    "data", "statistiek", "dataframe_overkoepelend",
+    "pooling_test_combined_dataframe_v1.csv"
+  ))
+  
+metadata <- readr::read_csv(
+  file.path(
+    pooling_test_folder,
+    "data",
+    "metadata",
+    "metadata_testpooling.csv"
+  ))
+```
+
+
