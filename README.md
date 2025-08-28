@@ -7,4 +7,4 @@ We hypothesize that sequencing only a single replicate yields comparable richnes
 
 ### Objectives
 - Compare alpha diversity (richness, Shannon, Simpson) between pooled triplicate extractions and single replicate extractions.
-- Quantify overlap in detected taxa across treatments (shared/unique OTUs/ASVs).
+- Quantify overlap in detected taxa across treatments (shared/unique OTUs/ASVs/genera/species).
