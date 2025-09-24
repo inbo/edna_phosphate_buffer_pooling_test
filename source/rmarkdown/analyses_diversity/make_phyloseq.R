@@ -86,7 +86,7 @@ meta_tbl <- meta_tbl %>%
 # ---- Read taxonomy table ----
 tax_raw <- read_csv(tax_path, show_col_types = FALSE)
 tax_id_col <- names(tax_raw)[1]
-id_hit2 <- intersect(tolower(names(tax_raw)), c("swarm","otu","otu_id","featureid","feature","asv","asv_id","id"))
+id_hit2 <- intersect(tolower(names(tax_raw)), c("swarm", "swarm_id", "otu","otu_id","featureid","feature","asv","asv_id","id"))
 if (length(id_hit2) == 1) {
   tax_id_col <- names(tax_raw)[match(id_hit2, tolower(names(tax_raw)))]
 }
