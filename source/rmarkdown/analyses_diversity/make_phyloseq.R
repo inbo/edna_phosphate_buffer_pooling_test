@@ -21,14 +21,15 @@ otu_path <- "25004_InseKP_SeDNA_EJPsoil_otu_table.table"
 meta_path <- "metadata_testpooling.csv"
 tax_path <- "25004_InseKP_SeDNA_EJPsoil_crabs_e02_tax.csv"
 
-# If running in this environment where files were uploaded, prefix with /mnt/data/
-if (file.exists(file.path("/mnt/data", basename(otu_path)))) {
-  otu_path <- file.path("/mnt/data", basename(otu_path))
-  meta_path <- file.path("/mnt/data", basename(meta_path))
-  tax_path <- file.path("/mnt/data", basename(tax_path))
-}
+# point to the current working directory
+otu_path  <- file.path(getwd(), basename(otu_path))
+meta_path <- file.path(getwd(), basename(meta_path))
+tax_path  <- file.path(getwd(), basename(tax_path))
 
-message("Reading files:\n - OTU: ", otu_path, "\n - META: ", meta_path, "\n - TAX: ", tax_path)
+message("Reading files:\n - OTU: ", otu_path,
+        "\n - META: ", meta_path,
+        "\n - TAX: ", tax_path)
+
 
 # Helper: normalize any feature ID to canonical 'SWARM<digits>' if it looks like a swarm id
 norm_swarm_id <- function(x) {
