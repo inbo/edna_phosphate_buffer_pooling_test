@@ -1,11 +1,11 @@
-# sample IDs present in OTU table but missing from metadata
-samples_in_otu_not_meta <- setdiff(colnames(otu_tab), rownames(meta_tbl))
-length(samples_in_otu_not_meta); head(samples_in_otu_not_meta)
+# IDs present in OTU table but NOT in metadata (these columns get dropped)
+otu_only <- setdiff(colnames(otu_tab), shared_samples)
+length(otu_only); head(otu_only)
 
-# sample IDs present in metadata but missing from OTU table
-samples_in_meta_not_otu <- setdiff(rownames(meta_tbl), colnames(otu_tab))
-length(samples_in_meta_not_otu); head(samples_in_meta_not_otu)
+# IDs present in metadata but NOT in OTU table (these rows get dropped)
+meta_only <- setdiff(rownames(meta_tbl), shared_samples)
+length(meta_only); head(meta_only)
 
-# inspect the actual entries that would be dropped
-otu_missing_samples  <- otu_tab[, colnames(otu_tab) %in% samples_in_otu_not_meta, drop = FALSE]
-meta_missing_samples <- meta_tbl[rownames(meta_tbl) %in% samples_in_meta_not_otu, , drop = FALSE]
+# Inspect the actual entries that will be dropped
+otu_missing  <- otu_tab[, otu_only, drop = FALSE]        # columns from OTU table
+meta_missing <- meta_tbl[meta_only, , drop = FALSE]      # rows from metadata
