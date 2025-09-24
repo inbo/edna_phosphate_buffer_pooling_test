@@ -1,11 +1,28 @@
-# IDs present in OTU table but NOT in metadata (these columns get dropped)
-otu_only <- setdiff(colnames(otu_tab), shared_samples)
-length(otu_only); head(otu_only)
+# --- Side-by-side list of sample IDs ---
+otu_ids  <- colnames(otu_tab)
+meta_ids <- rownames(meta_tbl)
 
-# IDs present in metadata but NOT in OTU table (these rows get dropped)
-meta_only <- setdiff(rownames(meta_tbl), shared_samples)
-length(meta_only); head(meta_only)
+# pad vectors to equal length with NA
+pad <- function(x, n) { length(x) <- n; x }
+n_max <- max(length(otu_ids), length(meta_ids))
 
-# Inspect the actual entries that will be dropped
-otu_missing  <- otu_tab[, otu_only, drop = FALSE]        # columns from OTU table
-meta_missing <- meta_tbl[meta_only, , drop = FALSE]      # rows from metadata
+side_by_side <- data.frame(
+  otu_tab_colname   = pad(otu_ids,  n_max),
+  meta_tbl_rownames = pad(meta_ids, n_max),
+  stringsAsFactors = FALSE
+)
+
+write.csv(side_by_side, "sample_ids_side_by_side.csv", row.names = FALSE)
+
+
+all_ids <- sort(unique(c(otu_ids, meta_ids)))
+recon <- data.frame(
+  sample_id = all_ids,
+  in_otu  = all_ids %in% otu_ids,
+  in_meta = all_ids %in% meta_ids,
+  stringsAsFactors = FALSE
+)
+recon$matched_both <- recon$in_otu & recon$in_meta
+
+write.csv(recon, "sample_id_reconciliation.csv", row.names = FALSE)
+
