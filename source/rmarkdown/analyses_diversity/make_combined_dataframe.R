@@ -37,13 +37,6 @@ metadata_path <- paste0(project_directory, "4c_bodembiodiversiteit/data/Stratifi
 metadata <- load_metadata_mbag(metadata_path = metadata_path,
                                remove_mock_blancos_ntcs = TRUE)
 
-# Set output directory
-output_directory <- "./R_scripts/compare_primers"
-
-# Define list of replicates that don't follow the standard replicate name system,
-# and need to be separately addressed
-custom_replicate_id_list <- c("137_012_241024_999_0579_207_01_25002",
-                              "137_012_241024_999_0544_207_01_25002")
 
 ################################################################################
 
